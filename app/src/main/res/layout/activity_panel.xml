@@ -15,6 +15,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         android:src="@drawable/background">
 
     </ImageView>
@@ -62,18 +63,23 @@
             android:layout_toEndOf="@id/panel_IMG_heart1"
             android:src="@drawable/heart" />
 
-        <TextView
-            android:id="@+id/panel_TXT_score"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="000"
-            android:textAlignment="center"
-            android:textSize="50dp"
-
-            />
 
 
     </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/panel_TXT_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:textSize="50dp"
+            android:layout_alignParentRight="true"
+            >
+
+        </TextView>
+
+
 
 
     <LinearLayout

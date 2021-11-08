@@ -3,9 +3,11 @@ package com.example.hw1;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -72,7 +74,7 @@ public class Activity_Panel extends AppCompatActivity {
     private Player mario;
     private ArrayList<ImageView> marioPosition = new ArrayList<>();
 
-    private ArrayList<ImageView> hearts = new ArrayList<>();
+    private ArrayList<ImageView> hearts;
     private ImageView heart1;
     private ImageView heart2;
     private ImageView heart3;
@@ -84,20 +86,18 @@ public class Activity_Panel extends AppCompatActivity {
     private ImageButton rightButton;
     private ImageButton leftButton;
 
-    Random obstacle = new Random();
     Random obstacleLine = new Random();
 
     final Handler handler = new Handler();
     private int clock = 10;
 
     private int clockCounter;
-    private int DELAY = 1000;
+    private int DELAY = 600;
 
 
     private Runnable r = new Runnable() {
         @Override
         public void run() {
-
 
             handler.postDelayed(r, DELAY);
             checkCrash();
@@ -106,15 +106,15 @@ public class Activity_Panel extends AppCompatActivity {
             if (mario.getHearts() == -1) {
                 Toast.makeText(Activity_Panel.this, "Game Over", Toast.LENGTH_SHORT).show();
                 gameStartingPoint();
+//                mario.setHearts(3);
             }
 
             if (clockCounter % 3 == 0) {
                 generateScreen();
             }
-
             clockCounter++;
 
-            if (clockCounter % 10 == 0 && DELAY > 700) {
+            if (clockCounter % 10 == 0 && DELAY > 300) {
                 increaseSpeed();
             }
         }
@@ -201,6 +201,7 @@ public class Activity_Panel extends AppCompatActivity {
 
 
     private void findViews() {
+        hearts = new ArrayList<>();
         screen = new ImageView[][]{
                 {findViewById(R.id.panel_IMG_mashroom1), findViewById(R.id.panel_IMG_mashroom2), findViewById(R.id.panel_IMG_mashroom3)},
                 {findViewById(R.id.panel_IMG_mashroom4), findViewById(R.id.panel_IMG_mashroom5), findViewById(R.id.panel_IMG_mashroom6)},
@@ -237,17 +238,20 @@ public class Activity_Panel extends AppCompatActivity {
                 values[i][j] = 0;
             }
         }
+        findViews();
+        DELAY = 700;
+        mario = new Player(marioPosition);
         values[5][1] = 5;
         score = 0;
         updateScore(0);
         mario.setHearts(3);
-        hearts.get(mario.getHearts()).setVisibility(View.VISIBLE);
+        resetHearts();
         updateUI();
     }
 
     private void updateScore(int points) {
         score += points;
-        scoreTxt.setText(""+score);
+        scoreTxt.setText("" + score);
     }
 
 
@@ -261,6 +265,7 @@ public class Activity_Panel extends AppCompatActivity {
 
             if (values[4][i] == 2 && values[5][i] == 5) { //Obstacle - green mushroom
                 increaseSpeed();
+                removeHeart();
                 removeObstacles();
                 break;
             }
@@ -281,25 +286,33 @@ public class Activity_Panel extends AppCompatActivity {
 
     }
 
+    private void resetHearts(){
+        for(int i = 0; i<hearts.size(); i++) {
+            hearts.get(i).setVisibility(View.VISIBLE);
+        }
+    }
+
     private void removeHeart() {
-        mario.setHearts(mario.getHearts() - 1);
-        hearts.get(mario.getHearts()).setVisibility(View.VISIBLE);
-//        if (mario.getHearts() < 0) {
-//            Toast.makeText(Activity_Panel.this, "Game Over", Toast.LENGTH_SHORT).show();
-//            gameStartingPoint();
-//        }
+        int currHeart = mario.getHearts();
+        hearts.get(mario.getHearts()).setVisibility(View.INVISIBLE);
+        mario.setHearts(currHeart - 1);
+
+        if (mario.getHearts() < 0) {
+            gameOverScreen();
+        }
     }
 
     private void addHeart() {
-        if (mario.getHearts() < 4) {
+        if (mario.getHearts() < 3) {
             mario.setHearts(mario.getHearts() + 1);
+            hearts.get(mario.getHearts()).setVisibility(View.VISIBLE);
         }
-        hearts.get(mario.getHearts()).setVisibility(View.VISIBLE);
+
     }
 
     private void increaseSpeed() {
-        DELAY -= 50;
-        Toast.makeText(Activity_Panel.this, "Speed game incraesed", Toast.LENGTH_SHORT).show();
+        DELAY -= 70;
+        Toast.makeText(Activity_Panel.this, "Speed game increased", Toast.LENGTH_SHORT).show();
     }
 
 //    public void Vibrator(){
@@ -312,7 +325,6 @@ public class Activity_Panel extends AppCompatActivity {
         for (int i = 0; i < values[0].length; i++) {
             values[4][i] = 0;
         }
-        updateScore(1);
         updateUI();
     }
 
@@ -320,6 +332,7 @@ public class Activity_Panel extends AppCompatActivity {
         int index = obstacleLine.nextInt(3);
         if (clockCounter % 10 == 0) {
             values[0][index] = 2;
+            updateScore(1);
         } else if (clockCounter % 15 == 0) {
             values[0][index] = 4;
         } else if (clockCounter % 8 == 0) {
@@ -333,7 +346,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveScreen() {
         int[] valuesOnScreen;
-        for (int i = values.length; i > 0; i--) {
+        for (int i = values.length-2; i > 0; i--) {
             valuesOnScreen = values[i];
             values[i] = values[i - 1];
             values[i - 1] = valuesOnScreen;
@@ -342,6 +355,11 @@ public class Activity_Panel extends AppCompatActivity {
             values[0][i] = 0;
         }
         updateUI();
+    }
+
+    private void gameOverScreen() {
+        Intent i = new Intent(this, GameOver.class);
+        startActivity(i);
     }
 
     private void updateUI() {
