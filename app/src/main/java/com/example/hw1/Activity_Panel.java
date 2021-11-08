@@ -3,7 +3,9 @@ package com.example.hw1;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -88,6 +90,13 @@ public class Activity_Panel extends AppCompatActivity {
 
     Random obstacleLine = new Random();
 
+    private MediaPlayer collect_coin;
+    private MediaPlayer mario_dies;
+    private MediaPlayer move_left;
+    private MediaPlayer move_right;
+    private MediaPlayer obstacle;
+    private MediaPlayer opening;
+
     final Handler handler = new Handler();
     private int clock = 10;
 
@@ -106,7 +115,7 @@ public class Activity_Panel extends AppCompatActivity {
             if (mario.getHearts() == -1) {
                 Toast.makeText(Activity_Panel.this, "Game Over", Toast.LENGTH_SHORT).show();
                 gameStartingPoint();
-//                mario.setHearts(3);
+
             }
 
             if (clockCounter % 3 == 0) {
@@ -151,6 +160,8 @@ public class Activity_Panel extends AppCompatActivity {
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                move_right = MediaPlayer.create(Activity_Panel.this, R.raw.move_right);
+                move_right.start();
                 moveRight();
             }
         });
@@ -158,6 +169,8 @@ public class Activity_Panel extends AppCompatActivity {
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                move_left = MediaPlayer.create(Activity_Panel.this, R.raw.move_left);
+                move_left.start();
                 moveLeft();
             }
         });
@@ -258,12 +271,18 @@ public class Activity_Panel extends AppCompatActivity {
     public void checkCrash() {
         for (int i = 0; i < values[0].length; i++) {
             if (values[4][i] == 1 && values[5][i] == 5) { //Obstacle - red mushroom
+                obstacle = MediaPlayer.create(Activity_Panel.this, R.raw.obstacle);
+                obstacle.start();
+                Vibrator();
                 removeHeart();
                 removeObstacles();
                 break;
             }
 
             if (values[4][i] == 2 && values[5][i] == 5) { //Obstacle - green mushroom
+                obstacle = MediaPlayer.create(Activity_Panel.this, R.raw.obstacle);
+                obstacle.start();
+                Vibrator();
                 increaseSpeed();
                 removeHeart();
                 removeObstacles();
@@ -272,6 +291,8 @@ public class Activity_Panel extends AppCompatActivity {
 
             if (values[4][i] == 3 && values[5][i] == 5) { //Coin
                 updateScore(10);
+                collect_coin = MediaPlayer.create(Activity_Panel.this, R.raw.coin);
+                collect_coin.start();
                 removeObstacles();
                 break;
             }
@@ -286,8 +307,8 @@ public class Activity_Panel extends AppCompatActivity {
 
     }
 
-    private void resetHearts(){
-        for(int i = 0; i<hearts.size(); i++) {
+    private void resetHearts() {
+        for (int i = 0; i < hearts.size(); i++) {
             hearts.get(i).setVisibility(View.VISIBLE);
         }
     }
@@ -298,12 +319,16 @@ public class Activity_Panel extends AppCompatActivity {
         mario.setHearts(currHeart - 1);
 
         if (mario.getHearts() < 0) {
+            MediaPlayer mario_dies = MediaPlayer.create(Activity_Panel.this, R.raw.mario_dies);
+            mario_dies.start();
             gameOverScreen();
         }
     }
 
     private void addHeart() {
         if (mario.getHearts() < 3) {
+            collect_coin = MediaPlayer.create(Activity_Panel.this, R.raw.coin);
+            collect_coin.start();
             mario.setHearts(mario.getHearts() + 1);
             hearts.get(mario.getHearts()).setVisibility(View.VISIBLE);
         }
@@ -315,10 +340,10 @@ public class Activity_Panel extends AppCompatActivity {
         Toast.makeText(Activity_Panel.this, "Speed game increased", Toast.LENGTH_SHORT).show();
     }
 
-//    public void Vibrator(){
-//        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//        v.vibrate(400);
-//    }
+    public void Vibrator(){
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(400);
+    }
 
 
     private void removeObstacles() {
@@ -346,7 +371,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveScreen() {
         int[] valuesOnScreen;
-        for (int i = values.length-2; i > 0; i--) {
+        for (int i = values.length - 2; i > 0; i--) {
             valuesOnScreen = values[i];
             values[i] = values[i - 1];
             values[i - 1] = valuesOnScreen;
