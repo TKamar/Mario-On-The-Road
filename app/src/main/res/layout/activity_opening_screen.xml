@@ -19,22 +19,77 @@
         android:layout_height="150dp"
         android:src="@drawable/title"
         android:layout_alignParentTop="true"
-        android:background="@null">
+        android:background="@null"
+        android:id="@+id/opening_screen_title">
 
     </ImageView>
 
 
     <ImageButton
+        android:id="@+id/opening_screen_play_sensorButton"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@null"
-        android:src="@drawable/play"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opening_screen_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:id="@+id/opening_screen_play"
-
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/sensors_mode_img"
         >
 
+    </ImageButton>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/opening_screen_play_hands"
+        android:layout_below="@id/opening_screen_play_sensorButton"
+        android:layout_centerInParent="true"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/point_up"
+            android:scaleType="fitCenter"
+            android:layout_margin="10dp"
+            android:rotation="@integer/material_motion_duration_long_2"
+
+            >
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/point_up"
+            android:layout_margin="10dp"
+            android:rotation="@integer/material_motion_duration_medium_1"
+
+            >
+
+        </ImageView>
+
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/opening_screen_play_buttonsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:src="@drawable/buttons_mode_img"
+        android:scaleType="fitCenter"
+        android:layout_below="@id/opening_screen_play_hands"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        >
     </ImageButton>
 
 

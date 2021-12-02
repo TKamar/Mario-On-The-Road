@@ -10,7 +10,8 @@ import android.widget.ImageButton;
 
 public class OpeningScreen extends AppCompatActivity {
 
-    private ImageButton play;
+    private ImageButton sensors_mode;
+    private ImageButton buttons_mode;
     private MediaPlayer opening_sound;
 
     @Override
@@ -21,20 +22,29 @@ public class OpeningScreen extends AppCompatActivity {
         opening_sound.start();
         findViews();
 
-        play.setOnClickListener(new View.OnClickListener() {
+        sensors_mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startGame();
+                startGame(1);
+            }
+        });
+
+        buttons_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startGame(2);
             }
         });
     }
 
     private void findViews() {
-        play = this.findViewById(R.id.opening_screen_play);
+        sensors_mode = this.findViewById(R.id.opening_screen_play_sensorButton);
+        buttons_mode = this.findViewById(R.id.opening_screen_play_buttonsButton);
     }
 
-    private void startGame() {
+    private void startGame(int mode) {
         Intent i = new Intent(this, Activity_Panel.class);
         startActivity(i);
     }

@@ -91,7 +91,7 @@ public class Activity_Panel extends AppCompatActivity {
     Random obstacleLine = new Random();
 
     private MediaPlayer collect_coin;
-    private MediaPlayer mario_dies;
+
     private MediaPlayer move_left;
     private MediaPlayer move_right;
     private MediaPlayer obstacle;
@@ -180,7 +180,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveRight() {
         int currentPosition = mario.getMarioPosition() + 1;
-        if (currentPosition < 3) {
+        if (currentPosition < 5) {
             mario.setMarioPosition(currentPosition);
             int newPosition = mario.getMarioPosition();
             moveMario(currentPosition - 1, newPosition);
@@ -190,7 +190,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveLeft() {
         int currentPosition = mario.getMarioPosition() - 1;
-        if (currentPosition > -1) {
+        if (currentPosition > -3) {
             mario.setMarioPosition(currentPosition);
             int newPosition = mario.getMarioPosition();
             moveMario(currentPosition + 1, newPosition);
@@ -216,12 +216,12 @@ public class Activity_Panel extends AppCompatActivity {
     private void findViews() {
         hearts = new ArrayList<>();
         screen = new ImageView[][]{
-                {findViewById(R.id.panel_IMG_mashroom1), findViewById(R.id.panel_IMG_mashroom2), findViewById(R.id.panel_IMG_mashroom3)},
-                {findViewById(R.id.panel_IMG_mashroom4), findViewById(R.id.panel_IMG_mashroom5), findViewById(R.id.panel_IMG_mashroom6)},
-                {findViewById(R.id.panel_IMG_mashroom7), findViewById(R.id.panel_IMG_mashroom8), findViewById(R.id.panel_IMG_mashroom9)},
-                {findViewById(R.id.panel_IMG_mashroom10), findViewById(R.id.panel_IMG_mashroom11), findViewById(R.id.panel_IMG_mashroom12)},
-                {findViewById(R.id.panel_IMG_mashroom13), findViewById(R.id.panel_IMG_mashroom14), findViewById(R.id.panel_IMG_mashroom15)},
-                {findViewById(R.id.panel_IMG_mario_left), findViewById(R.id.panel_IMG_mario_center), findViewById(R.id.panel_IMG_mario_right)}
+                {findViewById(R.id.panel_IMG_mashroom1), findViewById(R.id.panel_IMG_mashroom2), findViewById(R.id.panel_IMG_mashroom3), findViewById(R.id.panel_IMG_mashroom4), findViewById(R.id.panel_IMG_mashroom5)},
+                {findViewById(R.id.panel_IMG_mashroom6), findViewById(R.id.panel_IMG_mashroom7), findViewById(R.id.panel_IMG_mashroom8), findViewById(R.id.panel_IMG_mashroom9), findViewById(R.id.panel_IMG_mashroom10)},
+                {findViewById(R.id.panel_IMG_mashroom11), findViewById(R.id.panel_IMG_mashroom12), findViewById(R.id.panel_IMG_mashroom13), findViewById(R.id.panel_IMG_mashroom14), findViewById(R.id.panel_IMG_mashroom15)},
+                {findViewById(R.id.panel_IMG_mashroom16), findViewById(R.id.panel_IMG_mashroom17), findViewById(R.id.panel_IMG_mashroom18), findViewById(R.id.panel_IMG_mashroom19), findViewById(R.id.panel_IMG_mashroom20)},
+                {findViewById(R.id.panel_IMG_mashroom21), findViewById(R.id.panel_IMG_mashroom22), findViewById(R.id.panel_IMG_mashroom23), findViewById(R.id.panel_IMG_mashroom24), findViewById(R.id.panel_IMG_mashroom25)},
+                {findViewById(R.id.panel_IMG_mario1), findViewById(R.id.panel_IMG_mario2), findViewById(R.id.panel_IMG_mario3), findViewById(R.id.panel_IMG_mario4), findViewById(R.id.panel_IMG_mario5)}
         };
         values = new int[screen.length][screen[0].length];
 
@@ -238,9 +238,11 @@ public class Activity_Panel extends AppCompatActivity {
         hearts.add(2, heart3);
         hearts.add(3, heart4);
 
-        marioPosition.add(findViewById(R.id.panel_IMG_mario_left));
-        marioPosition.add(findViewById(R.id.panel_IMG_mario_center));
-        marioPosition.add(findViewById(R.id.panel_IMG_mario_right));
+        marioPosition.add(findViewById(R.id.panel_IMG_mario1));
+        marioPosition.add(findViewById(R.id.panel_IMG_mario2));
+        marioPosition.add(findViewById(R.id.panel_IMG_mario3));
+        marioPosition.add(findViewById(R.id.panel_IMG_mario4));
+        marioPosition.add(findViewById(R.id.panel_IMG_mario5));
 
         scoreTxt = findViewById(R.id.panel_TXT_score);
     }
@@ -319,8 +321,6 @@ public class Activity_Panel extends AppCompatActivity {
         mario.setHearts(currHeart - 1);
 
         if (mario.getHearts() < 0) {
-            MediaPlayer mario_dies = MediaPlayer.create(Activity_Panel.this, R.raw.mario_dies);
-            mario_dies.start();
             gameOverScreen();
         }
     }
@@ -354,7 +354,7 @@ public class Activity_Panel extends AppCompatActivity {
     }
 
     private void generateScreen() {
-        int index = obstacleLine.nextInt(3);
+        int index = obstacleLine.nextInt(5);
         if (clockCounter % 10 == 0) {
             values[0][index] = 2;
             updateScore(1);

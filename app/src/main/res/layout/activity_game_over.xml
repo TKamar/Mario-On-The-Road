@@ -33,7 +33,7 @@
         android:src="@drawable/play"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:id="@+id/opening_screen_play"
+        android:id="@+id/opening_screen_play_button"
 
         >
 

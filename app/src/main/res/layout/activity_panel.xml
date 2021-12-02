@@ -7,7 +7,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity_Panel">
+    tools:context=".Activity_Panel"
+    android:keepScreenOn="true"
+    >
 
 <!--    <uses-permission android:name="android.permission.VIBRATE"/>-->
 
@@ -121,6 +123,22 @@
                 android:layout_weight="1"
                 android:src="@drawable/mushroom1" />
 
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
 
         </LinearLayout>
 
@@ -137,24 +155,40 @@
 
 
             <ImageView
-                android:id="@+id/panel_IMG_mashroom4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-
-                android:src="@drawable/mushroom1" />
-
-            <ImageView
-                android:id="@+id/panel_IMG_mashroom5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:src="@drawable/mushroom1" />
-
-            <ImageView
                 android:id="@+id/panel_IMG_mashroom6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -174,56 +208,12 @@
 
 
             <ImageView
-                android:id="@+id/panel_IMG_mashroom7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-
-                android:src="@drawable/mushroom1" />
-
-            <ImageView
-                android:id="@+id/panel_IMG_mashroom8"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:src="@drawable/mushroom1" />
-
-            <ImageView
-                android:id="@+id/panel_IMG_mashroom9"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:src="@drawable/mushroom1" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/panel_IMG_row4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@id/panel_IMG_row3"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/panel_IMG_mashroom10"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-
-                android:src="@drawable/mushroom1" />
-
-            <ImageView
                 android:id="@+id/panel_IMG_mashroom11"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
+
                 android:src="@drawable/mushroom1" />
 
             <ImageView
@@ -234,24 +224,12 @@
                 android:layout_weight="1"
                 android:src="@drawable/mushroom1" />
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/panel_IMG_row5"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@id/panel_IMG_row4"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
             <ImageView
                 android:id="@+id/panel_IMG_mashroom13"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-
                 android:src="@drawable/mushroom1" />
 
             <ImageView
@@ -274,6 +252,110 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/panel_IMG_row4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/panel_IMG_row3"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom19"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom20"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/panel_IMG_row5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/panel_IMG_row4"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom21"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom24"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mashroom25"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:src="@drawable/mushroom1" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/mario_screen"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -284,27 +366,41 @@
             >
 
             <ImageView
-                android:id="@+id/panel_IMG_mario_left"
+                android:id="@+id/panel_IMG_mario1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/mario1" />
 
             <ImageView
-                android:id="@+id/panel_IMG_mario_center"
+                android:id="@+id/panel_IMG_mario2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/panel_IMG_mario_left"
+                android:layout_toEndOf="@id/panel_IMG_mario1"
                 android:layout_weight="1"
-                android:src="@drawable/mario1"
-
-                />
+                android:src="@drawable/mario1" />
 
             <ImageView
-                android:id="@+id/panel_IMG_mario_right"
+                android:id="@+id/panel_IMG_mario3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/panel_IMG_mario_left"
+                android:layout_toEndOf="@id/panel_IMG_mario1"
+                android:layout_weight="1"
+                android:src="@drawable/mario1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mario4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/panel_IMG_mario1"
+                android:layout_weight="1"
+                android:src="@drawable/mario1" />
+
+            <ImageView
+                android:id="@+id/panel_IMG_mario5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/panel_IMG_mario1"
                 android:layout_weight="1"
                 android:src="@drawable/mario1"
 
