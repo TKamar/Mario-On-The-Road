@@ -12,7 +12,17 @@
     >
 
 <!--    <uses-permission android:name="android.permission.VIBRATE"/>-->
-
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/panel_LBL_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:textColor="#000000"
+        android:text="TextView"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="match_parent"

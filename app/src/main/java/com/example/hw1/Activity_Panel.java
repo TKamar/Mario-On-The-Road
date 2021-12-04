@@ -1,24 +1,31 @@
 package com.example.hw1;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Vibrator;
-import android.view.View.OnClickListener;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hw1.objects.MyDB;
+import com.example.hw1.objects.Record;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.gson.Gson;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -70,6 +77,9 @@ class Player {
 
 public class Activity_Panel extends AppCompatActivity {
 
+    private MaterialTextView panel_LBL_info;
+
+
     private ImageView[][] screen;
     private int[][] values;
 
@@ -102,6 +112,9 @@ public class Activity_Panel extends AppCompatActivity {
 
     private int clockCounter;
     private int DELAY = 600;
+
+    private SensorManager sensorManager;
+    private Sensor accSensor;
 
 
     private Runnable r = new Runnable() {
@@ -153,11 +166,13 @@ public class Activity_Panel extends AppCompatActivity {
         setContentView(R.layout.activity_panel);
 
         findViews();
+        initSensor();
         gameStartingPoint();
+
 
         mario = new Player(marioPosition);
 
-        rightButton.setOnClickListener(new View.OnClickListener() {
+        rightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 move_right = MediaPlayer.create(Activity_Panel.this, R.raw.move_right);
@@ -166,7 +181,7 @@ public class Activity_Panel extends AppCompatActivity {
             }
         });
 
-        leftButton.setOnClickListener(new View.OnClickListener() {
+        leftButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 move_left = MediaPlayer.create(Activity_Panel.this, R.raw.move_left);
@@ -175,6 +190,65 @@ public class Activity_Panel extends AppCompatActivity {
             }
         });
 
+
+        MyDB myDB = new MyDB();
+        for (int i = 0; i < 10; i++) {
+            myDB.getRecords().add(new Record()
+                    .setTime(System.currentTimeMillis() - (i*1000*60*60*24))
+                    .setScore(new Random().nextInt(100))
+                    .setLat(i*10)
+                    .setLon(i*10)
+            );
+        }
+
+
+
+        String json = new Gson().toJson(myDB);
+        MSP.getMe().putString("MY_DB", json);
+
+
+        String js = MSP.getMe().getString("MY_DB", "");
+        MyDB md = new Gson().fromJson(js, MyDB.class);
+
+        int x = 0;
+
+    }
+
+
+    private void initSensor() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    private SensorEventListener accSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            DecimalFormat df = new DecimalFormat("##.##");
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            panel_LBL_info.setText(
+                    df.format(x) + "\n" + df.format(y) + "\n" + df.format(z)
+            );
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(accSensorEventListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(accSensorEventListener);
     }
 
 
