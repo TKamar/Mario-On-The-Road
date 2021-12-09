@@ -26,7 +26,7 @@ public class OpeningScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startGame(1);
+                startGame("sensors");
             }
         });
 
@@ -34,7 +34,7 @@ public class OpeningScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startGame(2);
+                startGame("buttons");
             }
         });
     }
@@ -44,8 +44,10 @@ public class OpeningScreen extends AppCompatActivity {
         buttons_mode = this.findViewById(R.id.opening_screen_play_buttonsButton);
     }
 
-    private void startGame(int mode) {
+    private void startGame(String mode) {
+
         Intent i = new Intent(this, Activity_Panel.class);
+        i.putExtra("mode", mode);
         startActivity(i);
     }
 

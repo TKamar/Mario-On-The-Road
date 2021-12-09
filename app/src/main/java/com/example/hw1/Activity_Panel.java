@@ -42,6 +42,7 @@ class Player {
         this.hearts = 3;
     }
 
+
     public int getHearts() {
         return hearts;
     }
@@ -85,6 +86,11 @@ public class Activity_Panel extends AppCompatActivity {
 
     private Player mario;
     private ArrayList<ImageView> marioPosition = new ArrayList<>();
+
+    private String mode;
+    private boolean isSensorMode;
+    private float sensorXAxis;
+
 
     private ArrayList<ImageView> hearts;
     private ImageView heart1;
@@ -164,11 +170,11 @@ public class Activity_Panel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_panel);
-
+        mode = getIntent().getStringExtra("mode");
         findViews();
-        initSensor();
-        gameStartingPoint();
+        gameMode();
 
+        gameStartingPoint();
 
         mario = new Player(marioPosition);
 
@@ -214,6 +220,20 @@ public class Activity_Panel extends AppCompatActivity {
 
     }
 
+    private void gameMode() {
+        if(mode.equals("sensors")){
+            leftButton.setVisibility(View.INVISIBLE);
+            rightButton.setVisibility(View.INVISIBLE);
+            initSensor();
+            isSensorMode = true;
+        }
+        else {
+            leftButton.setVisibility(View.VISIBLE);
+            rightButton.setVisibility(View.VISIBLE);
+            isSensorMode = false;
+        }
+    }
+
 
     private void initSensor() {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -224,13 +244,12 @@ public class Activity_Panel extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             DecimalFormat df = new DecimalFormat("##.##");
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            panel_LBL_info.setText(
-                    df.format(x) + "\n" + df.format(y) + "\n" + df.format(z)
-            );
+            sensorXAxis = event.values[0];
 
+            if (sensorXAxis + 1 > 2.5)
+                moveLeft();
+            else if (sensorXAxis - 1 < -2.5)
+                moveRight();
         }
 
         @Override
@@ -242,13 +261,17 @@ public class Activity_Panel extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(accSensorEventListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if(isSensorMode) {
+            sensorManager.registerListener(accSensorEventListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(accSensorEventListener);
+        if(isSensorMode) {
+            sensorManager.unregisterListener(accSensorEventListener);
+        }
     }
 
 
@@ -264,7 +287,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveLeft() {
         int currentPosition = mario.getMarioPosition() - 1;
-        if (currentPosition > -3) {
+        if (currentPosition > -5) {
             mario.setMarioPosition(currentPosition);
             int newPosition = mario.getMarioPosition();
             moveMario(currentPosition + 1, newPosition);
@@ -288,6 +311,7 @@ public class Activity_Panel extends AppCompatActivity {
 
 
     private void findViews() {
+
         hearts = new ArrayList<>();
         screen = new ImageView[][]{
                 {findViewById(R.id.panel_IMG_mashroom1), findViewById(R.id.panel_IMG_mashroom2), findViewById(R.id.panel_IMG_mashroom3), findViewById(R.id.panel_IMG_mashroom4), findViewById(R.id.panel_IMG_mashroom5)},
@@ -301,6 +325,7 @@ public class Activity_Panel extends AppCompatActivity {
 
         leftButton = this.findViewById(R.id.panel_IMG_left);
         rightButton = this.findViewById(R.id.panel_IMG_right);
+        panel_LBL_info = this.findViewById(R.id.panel_LBL_info);
 
         heart1 = findViewById(R.id.panel_IMG_heart1);
         heart2 = findViewById(R.id.panel_IMG_heart2);
@@ -327,6 +352,8 @@ public class Activity_Panel extends AppCompatActivity {
                 values[i][j] = 0;
             }
         }
+
+
         findViews();
         DELAY = 700;
         mario = new Player(marioPosition);
