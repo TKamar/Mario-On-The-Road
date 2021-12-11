@@ -3,24 +3,28 @@
     package="com.example.hw1">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".App"
+        android:name=".Activities.App"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
         <activity
-            android:name=".GameOver"
+            android:name=".Activities.Activity_Score_List"
             android:exported="false" />
         <activity
-            android:name=".OpeningScreen"
+            android:name=".Activities.GameOver"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.OpeningScreen"
             android:exported="true"
-            android:screenOrientation="portrait"
-
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,10 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity_Panel"
-            android:exported="false">
+            android:name=".Activities.Activity_Panel"
+            android:exported="false"></activity>
 
-        </activity>
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.version"-->
+<!--            android:value="@integer/google_play_services_version" />-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDIANQ5yoKHjoWZfpjkYmjaHWWU7-pswVY"
+            />
+
     </application>
 
 </manifest>

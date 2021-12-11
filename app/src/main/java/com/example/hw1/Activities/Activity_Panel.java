@@ -1,15 +1,21 @@
-package com.example.hw1;
+package com.example.hw1.Activities;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -17,15 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import com.example.hw1.objects.MyDB;
-import com.example.hw1.objects.Record;
+import com.example.hw1.R;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.gson.Gson;
 
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,7 +46,6 @@ class Player {
         this.marioPosition = 1;
         this.hearts = 3;
     }
-
 
     public int getHearts() {
         return hearts;
@@ -78,8 +82,14 @@ class Player {
 
 public class Activity_Panel extends AppCompatActivity {
 
+    private static final int REQUEST_LOCATION = 1;
+    final Handler handler = new Handler();
+
     private MaterialTextView panel_LBL_info;
 
+    private LocationManager locationManager;
+    private String latitude = "";
+    private String longitude = "";
 
     private ImageView[][] screen;
     private int[][] values;
@@ -113,7 +123,6 @@ public class Activity_Panel extends AppCompatActivity {
     private MediaPlayer obstacle;
     private MediaPlayer opening;
 
-    final Handler handler = new Handler();
     private int clock = 10;
 
     private int clockCounter;
@@ -121,7 +130,6 @@ public class Activity_Panel extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private Sensor accSensor;
-
 
     private Runnable r = new Runnable() {
         @Override
@@ -178,6 +186,16 @@ public class Activity_Panel extends AppCompatActivity {
 
         mario = new Player(marioPosition);
 
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            OnGPS();
+        } else {
+            getLocation();
+        }
+
         rightButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,28 +214,41 @@ public class Activity_Panel extends AppCompatActivity {
             }
         });
 
+    }
 
-        MyDB myDB = new MyDB();
-        for (int i = 0; i < 10; i++) {
-            myDB.getRecords().add(new Record()
-                    .setTime(System.currentTimeMillis() - (i*1000*60*60*24))
-                    .setScore(new Random().nextInt(100))
-                    .setLat(i*10)
-                    .setLon(i*10)
-            );
+    private void OnGPS() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                Activity_Panel.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                Activity_Panel.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        } else {
+            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (locationGPS != null) {
+                double lat = locationGPS.getLatitude();
+                double lon = locationGPS.getLongitude();
+                latitude = String.valueOf(lat);
+                longitude = String.valueOf(lon);
+            } else {
+                Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
+            }
         }
-
-
-
-        String json = new Gson().toJson(myDB);
-        MSP.getMe().putString("MY_DB", json);
-
-
-        String js = MSP.getMe().getString("MY_DB", "");
-        MyDB md = new Gson().fromJson(js, MyDB.class);
-
-        int x = 0;
-
     }
 
     private void gameMode() {
@@ -243,9 +274,7 @@ public class Activity_Panel extends AppCompatActivity {
     private SensorEventListener accSensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            DecimalFormat df = new DecimalFormat("##.##");
             sensorXAxis = event.values[0];
-
             if (sensorXAxis + 1 > 2.5)
                 moveLeft();
             else if (sensorXAxis - 1 < -2.5)
@@ -277,7 +306,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveRight() {
         int currentPosition = mario.getMarioPosition() + 1;
-        if (currentPosition < 5) {
+        if (currentPosition < values[0].length) {
             mario.setMarioPosition(currentPosition);
             int newPosition = mario.getMarioPosition();
             moveMario(currentPosition - 1, newPosition);
@@ -287,7 +316,7 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void moveLeft() {
         int currentPosition = mario.getMarioPosition() - 1;
-        if (currentPosition > -5) {
+        if (currentPosition >= 0) {
             mario.setMarioPosition(currentPosition);
             int newPosition = mario.getMarioPosition();
             moveMario(currentPosition + 1, newPosition);
@@ -323,9 +352,9 @@ public class Activity_Panel extends AppCompatActivity {
         };
         values = new int[screen.length][screen[0].length];
 
-        leftButton = this.findViewById(R.id.panel_IMG_left);
-        rightButton = this.findViewById(R.id.panel_IMG_right);
-        panel_LBL_info = this.findViewById(R.id.panel_LBL_info);
+        leftButton = findViewById(R.id.panel_IMG_left);
+        rightButton = findViewById(R.id.panel_IMG_right);
+        panel_LBL_info = findViewById(R.id.panel_LBL_info);
 
         heart1 = findViewById(R.id.panel_IMG_heart1);
         heart2 = findViewById(R.id.panel_IMG_heart2);
@@ -485,6 +514,10 @@ public class Activity_Panel extends AppCompatActivity {
 
     private void gameOverScreen() {
         Intent i = new Intent(this, GameOver.class);
+        i.putExtra("finalScore", String.valueOf(score));
+        i.putExtra("lat", Double.valueOf(latitude));
+        i.putExtra("lon", Double.valueOf(longitude));
+        finish();
         startActivity(i);
     }
 
@@ -514,4 +547,5 @@ public class Activity_Panel extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/red_background">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/score_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/score_menu_img"
+        >
+
+    </ImageView>
+
+<LinearLayout
+    android:id="@+id/fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_below="@id/score_list_title"
+    android:layout_above="@id/back_button"
+    >
+
+    <FrameLayout
+        android:id="@+id/frame_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20sp"
+        >
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/frame_list"
+        >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/frame_list"
+
+            />
+
+    </FrameLayout>
+
+</LinearLayout>
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_img">
+
+    </ImageButton>
+
+
+</RelativeLayout>

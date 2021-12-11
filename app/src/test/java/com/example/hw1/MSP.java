@@ -9,10 +9,10 @@ public class MSP {
 
 
 
-    private static MSP me;
+    private static com.example.hw1.objects.MSP me;
     private SharedPreferences sharedPreferences;
 
-    public static MSP getMe() {
+    public static com.example.hw1.objects.MSP getMe() {
         return me;
     }
 
@@ -20,9 +20,9 @@ public class MSP {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(SP_FILE, Context.MODE_PRIVATE);
     }
 
-    public static MSP initHelper(Context context) {
+    public static com.example.hw1.objects.MSP initHelper(Context context) {
         if (me == null) {
-            me = new MSP(context);
+            me = new com.example.hw1.objects.MSP(context);
         }
         return me;
     }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Super Mario</string>
+    <string name="google_maps_key">AIzaSyBY3c7RFvwzs06juEg0nzIU7PVERTIV3U8</string>
+
 </resources>
